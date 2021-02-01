@@ -1,0 +1,29 @@
+{
+    "name": "hexlet/code",
+    "bin": ["bin/gendiff"],
+    "description": "gendiff",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Korney",
+            "email": "shapurid@yandex.ru"
+        }
+    ],
+    "scripts": {
+        "phpcs": "phpcs"
+    },
+    "autoload": {
+        "files": [
+            "src/Cli.php"
+        ],
+        "psr-4": {
+            "App\\": "src"
+        }
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
