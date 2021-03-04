@@ -2,7 +2,10 @@
 
 namespace App\Cli;
 
-const DOC = <<<DOC
+use Docopt;
+use App\Differ;
+
+const DOC = <<<DOCS
 
 Generate diff
 
@@ -16,9 +19,17 @@ Options:
   -v --version                  Show version
   --format <fmt>                Report format [default: stylish]
 
-DOC;
+DOCS;
 
-function genDiff()
+function run()
 {
-    \Docopt::handle(DOC, ['version' => '0.0.1']);
+    $args = Docopt::handle(DOC, ['version' => '0.0.1']);
+
+    [
+      '<firstFile>' => $pathOfFile1,
+      '<secondFile>' => $pathOfFile2,
+      '--format' => $format
+    ] = $args;
+
+    print_r(Differ\genDiff($pathOfFile1, $pathOfFile2, $format));
 }

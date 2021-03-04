@@ -14,16 +14,24 @@
     },
     "autoload": {
         "files": [
-            "src/Cli.php"
+            "src/Cli.php",
+            "src/Differ.php",
+            "src/BuildAst.php",
+            "src/Parsers.php",
+            "src/Render.php",
+            "src/Formatters/Pretty.php"
         ],
         "psr-4": {
             "App\\": "src"
         }
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.5"
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpunit/phpunit": "^9.5"
     },
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "symfony/yaml": "^5.2",
+        "funct/funct": "^1.5"
     }
 }
