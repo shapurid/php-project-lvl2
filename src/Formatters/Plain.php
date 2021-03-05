@@ -27,7 +27,7 @@ function format($ast, $path = '')
             function ($pathOfProperty, $node) {
                 ['value' => $value] = $node;
                 $stringifiedValue = stringifyValue($value);
-                return "Property '$pathOfProperty' was added with value '$stringifiedValue'";
+                return "Property '$pathOfProperty' was added with value: $stringifiedValue";
             },
         'removed' =>
             fn($pathOfProperty) => "Property '$pathOfProperty' was removed",
@@ -38,7 +38,7 @@ function format($ast, $path = '')
                 ['newValue' => $newValue, 'oldValue' => $oldValue] = $node;
                 $stringifiedNewValue = stringifyValue($newValue);
                 $stringifiedOldValue = stringifyValue($oldValue);
-                return "Property '$pathOfProperty' was updated from '$stringifiedOldValue' to '$stringifiedNewValue'";
+                return "Property '$pathOfProperty' was updated. From $stringifiedOldValue to $stringifiedNewValue";
             },
         'nested' =>
             function ($pathOfProperty, $node, $fn) {
