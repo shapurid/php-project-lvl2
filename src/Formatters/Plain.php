@@ -15,6 +15,10 @@ function stringifyValue($value)
             return '[complex value]';
         case 'object':
             return '[complex value]';
+        case 'integer':
+            return (string) $value;
+        case 'double':
+            return (string) $value;
         default:
             return "'$value'";
     }
