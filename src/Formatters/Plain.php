@@ -8,24 +8,22 @@ namespace Differ\Formatters\Plain;
 
 function stringifyValue($value): string
 {
-    $typeOfValue = gettype($value);
-
-    switch ($typeOfValue) {
-        case 'boolean':
-            return $value ? 'true' : 'false';
-        case 'NULL':
-            return 'null';
-        case 'array':
-            return '[complex value]';
-        case 'object':
-            return '[complex value]';
-        case 'integer':
-            return (string) $value;
-        case 'double':
-            return (string) $value;
-        default:
-            return "'$value'";
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
     }
+    if (is_null($value)) {
+        return 'null';
+    }
+    if (is_array($value)) {
+        return '[complex value]';
+    }
+    if (is_object($value)) {
+        return '[complex value]';
+    }
+    if (is_int($value)) {
+        return (string) $value;
+    }
+    return "'$value'";
 }
 
 /**
