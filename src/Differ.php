@@ -17,16 +17,16 @@ function getFileContent(string $pathToFile): \stdClass
 
 function genDiff(string $pathToFile1, string $pathToFile2, $format = 'stylish'): string
 {
-    $absolutePathToFile1 = realpath($pathToFile1);
-    $absolutePathToFile2 = realpath($pathToFile2);
+    $absolutePathToFile1 = (string) realpath($pathToFile1);
+    $absolutePathToFile2 = (string) realpath($pathToFile2);
     if (!file_exists($absolutePathToFile1)) {
         throw new Exception("File '{$pathToFile1}' does not exists!");
     }
     if (!file_exists($absolutePathToFile2)) {
         throw new Exception("File '{$pathToFile2}' does not exists!");
     }
-    $content1 = getFileContent((string) $absolutePathToFile1);
-    $content2 = getFileContent((string) $absolutePathToFile2);
+    $content1 = getFileContent($absolutePathToFile1);
+    $content2 = getFileContent($absolutePathToFile2);
 
     $ast = buildAst($content1, $content2);
     return render($ast, $format);
