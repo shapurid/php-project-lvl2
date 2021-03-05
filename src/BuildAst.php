@@ -3,7 +3,6 @@
 namespace Differ\BuildAst;
 
 use function Funct\Collection\union;
-use function Funct\Collection\sortBy;
 
 function buildAst(\stdClass $data1, \stdClass $data2): array
 {
@@ -13,6 +12,7 @@ function buildAst(\stdClass $data1, \stdClass $data2): array
         array_keys($varsOfContent1),
         array_keys($varsOfContent2)
     );
+    asort($unionOfKeys);
     return array_map(function ($key) use ($data1, $data2) {
         if (
             (property_exists($data1, $key) && property_exists($data2, $key))
