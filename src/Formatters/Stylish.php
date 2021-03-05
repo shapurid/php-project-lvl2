@@ -9,35 +9,37 @@ function makeIndent($n = 1): string
 
 /**
  * @param \stdClass|string|int|bool $value
+ * @param int $depth
  */
 
 function stringifyValue($value, $depth): string
 {
     $typeOfValue = gettype($value);
 
-    switch ($typeOfValue) {
-        case 'boolean':
-            return $value ? 'true' : 'false';
-        case 'NULL':
-            return 'null';
-        case 'array':
-            return 'Array';
-        case 'object':
-            $objectVars = get_object_vars($value);
-            $keys = array_keys($objectVars);
-
-            $data = array_map(function ($key) use ($value, $depth): string {
-                $a = $value->$key;
-                $formattedValue = stringifyValue($a, $depth + 2);
-                return "$key: $formattedValue";
-            }, $keys);
-            $beginIndent = makeIndent($depth + 3);
-            $endIndent = makeIndent($depth + 1);
-            $formattedData = implode("\n$beginIndent", $data);
-            return "{\n{$beginIndent}{$formattedData}\n{$endIndent}}";
-        default:
-            return $value;
+    if (is_bool($value)) {
+        return $value ? 'true' : 'false';
     }
+    if (is_null($value)) {
+        return 'null';
+    }
+    if (is_array($value)) {
+        return 'Array';
+    }
+    if (!is_object($value)) {
+        return (string) $value;
+    }
+    $objectVars = get_object_vars($value);
+    $keys = array_keys($objectVars);
+
+    $data = array_map(function ($key) use ($value, $depth): string {
+        $a = $value->$key;
+        $formattedValue = stringifyValue($a, $depth + 2);
+        return "$key: $formattedValue";
+    }, $keys);
+    $beginIndent = makeIndent($depth + 3);
+    $endIndent = makeIndent($depth + 1);
+    $formattedData = implode("\n$beginIndent", $data);
+    return "{\n{$beginIndent}{$formattedData}\n{$endIndent}}";
 }
 
 function renderAst($ast, $depth = 0): string
