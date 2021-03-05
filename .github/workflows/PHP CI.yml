@@ -1,6 +1,6 @@
 ---
 
-name: PHP Linter
+name: PHP CI
 
 on: push
 
