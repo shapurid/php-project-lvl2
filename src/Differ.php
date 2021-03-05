@@ -25,8 +25,8 @@ function genDiff(string $pathToFile1, string $pathToFile2, $format = 'stylish'):
     if (!file_exists($absolutePathToFile2)) {
         throw new Exception("File '{$pathToFile2}' does not exists!");
     }
-    $content1 = getFileContent($absolutePathToFile1);
-    $content2 = getFileContent($absolutePathToFile2);
+    $content1 = getFileContent((string) $absolutePathToFile1);
+    $content2 = getFileContent((string) $absolutePathToFile2);
 
     $ast = buildAst($content1, $content2);
     return render($ast, $format);
