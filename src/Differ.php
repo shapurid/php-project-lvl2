@@ -15,7 +15,11 @@ function getFileContent(string $pathToFile): \stdClass
     return parse($fileContent, $format);
 }
 
-function genDiff(string $pathToFile1, string $pathToFile2, $format = 'stylish'): string
+/**
+ * @return string|false
+ */
+
+function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
 {
     $absolutePathToFile1 = (string) realpath($pathToFile1);
     $absolutePathToFile2 = (string) realpath($pathToFile2);
@@ -29,5 +33,6 @@ function genDiff(string $pathToFile1, string $pathToFile2, $format = 'stylish'):
     $content2 = getFileContent($absolutePathToFile2);
 
     $ast = buildAst($content1, $content2);
+    print_r($ast);
     return render($ast, $format);
 }

@@ -5,7 +5,11 @@ namespace Differ\BuildAst;
 use function Funct\Collection\union;
 use function Funct\Collection\sortBy;
 
-function buildAst(object $data1, object $data2): array
+/**
+ * @return array<int|string|bool|array|\stdClass>
+ */
+
+function buildAst(object $data1, object $data2)
 {
     $varsOfContent1 = get_object_vars($data1);
     $varsOfContent2 = get_object_vars($data2);

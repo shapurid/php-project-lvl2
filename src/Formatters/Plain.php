@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Plain;
 
-function stringifyValue($value): string
+function stringifyValue(string $value): string
 {
     $typeOfValue = gettype($value);
 
@@ -24,7 +24,13 @@ function stringifyValue($value): string
     }
 }
 
-function format($ast, $path = ''): string
+/**
+ * @param array<int|string|bool|array|\stdClass> $ast
+ * @param string $path
+ * @return string
+ */
+
+function format($ast, $path = '')
 {
     $nodeHandlers = [
         'added' =>

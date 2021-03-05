@@ -4,7 +4,11 @@ namespace Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parse($data, $type): \stdClass
+/**
+ * @param string|false $data
+ */
+
+function parse($data, string $type): \stdClass
 {
     $parsers = [
         'json' =>

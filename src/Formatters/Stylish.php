@@ -2,17 +2,16 @@
 
 namespace Differ\Formatters\Stylish;
 
-function makeIndent($n = 1): string
+function makeIndent(int $n = 1): string
 {
     return str_repeat(' ', $n * 2);
 }
 
 /**
- * @param \stdClass|array|string|int|null|bool $value
- * @param int $depth
+ * @param \stdClass|string|int|null|bool|array<int|string|bool|array|\stdClass> $value
  */
 
-function stringifyValue($value, $depth): string
+function stringifyValue($value, int $depth): string
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -40,7 +39,11 @@ function stringifyValue($value, $depth): string
     return "{\n{$beginIndent}{$formattedData}\n{$endIndent}}";
 }
 
-function renderAst($ast, $depth = 0): string
+/**
+ * @param array<int|string|bool|array|\stdClass> $ast
+ */
+
+function renderAst($ast, int $depth = 0): string
 {
     $nodeHandlers = [
         'added' =>
@@ -94,7 +97,11 @@ function renderAst($ast, $depth = 0): string
     return implode("\n", $elementsOfDiff);
 }
 
-function format($ast, $depth = 0): string
+/**
+ * @param array<int|string|bool|array|\stdClass> $ast
+ */
+
+function format($ast, int $depth = 0): string
 {
     $a = renderAst($ast, $depth + 1);
     $beginIndent = makeIndent($depth);

@@ -5,18 +5,23 @@ namespace Differ\Render;
 use Exception;
 use Differ\Formatters;
 
-function render($data, $format = 'stylish'): string
+/**
+ * @param array<int|string|bool|array|\stdClass> $ast
+ * @return string|false
+ */
+
+function render($ast, string $format = 'stylish')
 {
     $formatters = [
         'json' =>
-            fn($data) => json_encode($data, JSON_PRETTY_PRINT),
+            fn($ast) => json_encode($ast, JSON_PRETTY_PRINT),
         'stylish' =>
-            fn($data) => Formatters\Stylish\format($data),
+            fn($ast) => Formatters\Stylish\format($ast),
         'plain' =>
-            fn($data) => Formatters\Plain\format($data)
+            fn($ast) => Formatters\Plain\format($ast)
     ];
     if (!array_key_exists($format, $formatters)) {
         throw new Exception('This format does not support!');
     }
-    return (string) $formatters[$format]($data);
+    return $formatters[$format]($ast);
 }
