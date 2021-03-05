@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Differ\Tests;
+namespace Differ\Tests;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-use function App\Differ\genDiff;
+use function Differ\Differ\genDiff;
 
 class DifferTest extends TestCase
 {

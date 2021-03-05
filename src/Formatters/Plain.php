@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Formatters\Plain;
+namespace Differ\Formatters\Plain;
 
-function stringifyValue($value)
+function stringifyValue($value): string
 {
     $typeOfValue = gettype($value);
 
@@ -15,30 +15,34 @@ function stringifyValue($value)
             return '[complex value]';
         case 'object':
             return '[complex value]';
+        case 'integer':
+            return (string) $value;
+        case 'double':
+            return (string) $value;
         default:
             return "'$value'";
     }
 }
 
-function format($ast, $path = '')
+function format($ast, $path = ''): string
 {
     $nodeHandlers = [
         'added' =>
-            function ($pathOfProperty, $node) {
+            function ($pathOfProperty, $node): string {
                 ['value' => $value] = $node;
                 $stringifiedValue = stringifyValue($value);
-                return "Property '$pathOfProperty' was added with value '$stringifiedValue'";
+                return "Property '$pathOfProperty' was added with value: $stringifiedValue";
             },
         'removed' =>
             fn($pathOfProperty) => "Property '$pathOfProperty' was removed",
         'unchanged' =>
             fn() => '',
         'changed' =>
-            function ($pathOfProperty, $node) {
+            function ($pathOfProperty, $node): string {
                 ['newValue' => $newValue, 'oldValue' => $oldValue] = $node;
                 $stringifiedNewValue = stringifyValue($newValue);
                 $stringifiedOldValue = stringifyValue($oldValue);
-                return "Property '$pathOfProperty' was updated from '$stringifiedOldValue' to '$stringifiedNewValue'";
+                return "Property '$pathOfProperty' was updated. From $stringifiedOldValue to $stringifiedNewValue";
             },
         'nested' =>
             function ($pathOfProperty, $node, $fn) {
@@ -53,5 +57,6 @@ function format($ast, $path = '')
         $handleNode = $nodeHandlers[$type];
         return $handleNode($pathOfProperty, $node, fn($children, $d) => format($children, $d));
     }, $ast);
-    return implode("\n", $elementsOfDiff);
+    $elementWithoutEmptyStrings = array_filter($elementsOfDiff, fn($el) => strlen($el) > 0);
+    return implode("\n", $elementWithoutEmptyStrings);
 }

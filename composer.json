@@ -27,8 +27,8 @@
             "src/Formatters/Plain.php"
         ],
         "psr-4": {
-            "App\\": "src",
-            "App\\Tests\\": "tests"
+            "Differ\\": "src",
+            "Differ\\Tests\\": "tests"
         }
     },
     "require-dev": {

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\BuildAst;
+namespace Differ\BuildAst;
 
 use function Funct\Collection\union;
+use function Funct\Collection\sortBy;
 
-function buildAst(\stdClass $data1, \stdClass $data2): array
+function buildAst(object $data1, object $data2): array
 {
     $varsOfContent1 = get_object_vars($data1);
     $varsOfContent2 = get_object_vars($data2);
@@ -12,6 +13,7 @@ function buildAst(\stdClass $data1, \stdClass $data2): array
         array_keys($varsOfContent1),
         array_keys($varsOfContent2)
     );
+    $sortedKeys = sortBy($unionOfKeys, fn($value) => $value);
     return array_map(function ($key) use ($data1, $data2) {
         if (
             (property_exists($data1, $key) && property_exists($data2, $key))
@@ -38,8 +40,8 @@ function buildAst(\stdClass $data1, \stdClass $data2): array
             return [
                 'type' => 'changed',
                 'key' => $key,
-                'newValue' => $data1->$key,
-                'oldValue' => $data2->$key,
+                'newValue' => $data2->$key,
+                'oldValue' => $data1->$key,
             ];
         } else {
             return [
@@ -48,5 +50,5 @@ function buildAst(\stdClass $data1, \stdClass $data2): array
                 'value' => $data1->$key
             ];
         };
-    }, $unionOfKeys);
+    }, $sortedKeys);
 }

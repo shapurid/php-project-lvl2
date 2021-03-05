@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Render;
+namespace Differ\Render;
 
 use Exception;
-use App\Formatters;
+use Differ\Formatters;
 
-function render($data, $format = 'stylish')
+function render($data, $format = 'stylish'): string
 {
     $formatters = [
         'json' =>
@@ -18,5 +18,5 @@ function render($data, $format = 'stylish')
     if (!array_key_exists($format, $formatters)) {
         throw new Exception('This format does not support!');
     }
-    return $formatters[$format]($data);
+    return (string) $formatters[$format]($data);
 }
