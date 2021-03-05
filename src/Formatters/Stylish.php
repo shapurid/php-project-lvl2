@@ -2,12 +2,12 @@
 
 namespace Differ\Formatters\Stylish;
 
-function makeIndent($n = 1)
+function makeIndent($n = 1): string
 {
     return str_repeat(' ', $n * 2);
 }
 
-function stringifyValue($value, $depth)
+function stringifyValue($value, $depth): string
 {
     $typeOfValue = gettype($value);
 
@@ -22,7 +22,7 @@ function stringifyValue($value, $depth)
             $objectVars = get_object_vars($value);
             $keys = array_keys($objectVars);
 
-            $data = array_map(function ($key) use ($value, $depth) {
+            $data = array_map(function ($key) use ($value, $depth): string {
                 $indent = makeIndent($depth);
                 $formattedValue = stringifyValue($value->$key, $depth + 2);
                 return "$key: $formattedValue";
@@ -36,32 +36,32 @@ function stringifyValue($value, $depth)
     }
 }
 
-function renderAst($ast, $depth = 0)
+function renderAst($ast, $depth = 0): string
 {
     $nodeHandlers = [
         'added' =>
-            function ($depth, $node) {
+            function ($depth, $node): string {
                 ['key' => $key, 'value' => $value] = $node;
                 $indent = makeIndent($depth);
                 $stringifiedValue = stringifyValue($value, $depth);
                 return "$indent+ $key: $stringifiedValue";
             },
         'removed' =>
-            function ($depth, $node) {
+            function ($depth, $node): string {
                 ['key' => $key, 'value' => $value] = $node;
                 $indent = makeIndent($depth);
                 $stringifiedValue = stringifyValue($value, $depth);
                 return "$indent- $key: $stringifiedValue";
             },
         'unchanged' =>
-            function ($depth, $node) {
+            function ($depth, $node): string {
                 ['key' => $key, 'value' => $value] = $node;
                 $indent = makeIndent($depth);
                 $stringifiedValue = stringifyValue($value, $depth);
                 return "$indent  $key: $stringifiedValue";
             },
         'changed' =>
-            function ($depth, $node) {
+            function ($depth, $node): string {
                 [
                     'key' => $key,
                     'newValue' => $newValue,
@@ -73,7 +73,7 @@ function renderAst($ast, $depth = 0)
                 return "$indent- $key: $stringifiedOldValue\n$indent+ $key: $stringifiedNewValue";
             },
         'nested' =>
-            function ($depth, $node, $fn) {
+            function ($depth, $node, $fn): string {
                 ['key' => $key, 'children' => $children] = $node;
                 $beginIndent = makeIndent($depth);
                 $endIndent = makeIndent($depth + 1);
@@ -82,7 +82,7 @@ function renderAst($ast, $depth = 0)
             }
     ];
 
-    $elementsOfDiff = array_map(function ($node) use ($nodeHandlers, $depth) {
+    $elementsOfDiff = array_map(function ($node) use ($nodeHandlers, $depth): string {
         ['type' => $type] = $node;
         $handleNode = $nodeHandlers[$type];
         return $handleNode($depth, $node, fn($children, $d) => renderAst($children, $d));
@@ -90,7 +90,7 @@ function renderAst($ast, $depth = 0)
     return implode("\n", $elementsOfDiff);
 }
 
-function format($ast, $depth = 0)
+function format($ast, $depth = 0): string
 {
     $a = renderAst($ast, $depth + 1);
     $beginIndent = makeIndent($depth);

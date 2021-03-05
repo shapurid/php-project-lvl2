@@ -5,7 +5,7 @@ namespace Differ\Render;
 use Exception;
 use Differ\Formatters;
 
-function render($data, $format = 'stylish')
+function render($data, $format = 'stylish'): string
 {
     $formatters = [
         'json' =>

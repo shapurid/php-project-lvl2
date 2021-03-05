@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Plain;
 
-function stringifyValue($value)
+function stringifyValue($value): string
 {
     $typeOfValue = gettype($value);
 
@@ -24,11 +24,11 @@ function stringifyValue($value)
     }
 }
 
-function format($ast, $path = '')
+function format($ast, $path = ''): string
 {
     $nodeHandlers = [
         'added' =>
-            function ($pathOfProperty, $node) {
+            function ($pathOfProperty, $node): string {
                 ['value' => $value] = $node;
                 $stringifiedValue = stringifyValue($value);
                 return "Property '$pathOfProperty' was added with value: $stringifiedValue";
@@ -38,7 +38,7 @@ function format($ast, $path = '')
         'unchanged' =>
             fn() => '',
         'changed' =>
-            function ($pathOfProperty, $node) {
+            function ($pathOfProperty, $node): string {
                 ['newValue' => $newValue, 'oldValue' => $oldValue] = $node;
                 $stringifiedNewValue = stringifyValue($newValue);
                 $stringifiedOldValue = stringifyValue($oldValue);

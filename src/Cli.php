@@ -22,7 +22,7 @@ Options:
 
 DOCS;
 
-function run()
+function run(): void
 {
     $args = Docopt::handle(DOC, ['version' => '0.0.1']);
 
