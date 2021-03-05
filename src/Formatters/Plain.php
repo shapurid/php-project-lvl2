@@ -57,5 +57,6 @@ function format($ast, $path = '')
         $handleNode = $nodeHandlers[$type];
         return $handleNode($pathOfProperty, $node, fn($children, $d) => format($children, $d));
     }, $ast);
-    return implode("\n", $elementsOfDiff);
+    $elementWithoutEmptyStrings = array_filter($elementsOfDiff, fn($el) => strlen($el) > 0);
+    return implode("\n", $elementWithoutEmptyStrings);
 }
