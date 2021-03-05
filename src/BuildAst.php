@@ -3,6 +3,7 @@
 namespace Differ\BuildAst;
 
 use function Funct\Collection\union;
+use function Funct\Collection\sortBy;
 
 function buildAst(\stdClass $data1, \stdClass $data2): array
 {
@@ -38,8 +39,8 @@ function buildAst(\stdClass $data1, \stdClass $data2): array
             return [
                 'type' => 'changed',
                 'key' => $key,
-                'newValue' => $data1->$key,
-                'oldValue' => $data2->$key,
+                'newValue' => $data2->$key,
+                'oldValue' => $data1->$key,
             ];
         } else {
             return [

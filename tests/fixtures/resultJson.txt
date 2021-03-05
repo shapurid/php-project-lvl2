@@ -16,10 +16,10 @@
             "2": {
                 "type": "changed",
                 "key": "setting3",
-                "newValue": true,
-                "oldValue": {
+                "newValue": {
                     "key": "value"
-                }
+                },
+                "oldValue": true
             },
             "3": {
                 "type": "nested",
@@ -63,8 +63,8 @@
             {
                 "type": "changed",
                 "key": "baz",
-                "newValue": "bas",
-                "oldValue": "bars"
+                "newValue": "bars",
+                "oldValue": "bas"
             },
             {
                 "type": "unchanged",
@@ -74,10 +74,10 @@
             {
                 "type": "changed",
                 "key": "nest",
-                "newValue": {
+                "newValue": "str",
+                "oldValue": {
                     "key": "value"
-                },
-                "oldValue": "str"
+                }
             }
         ]
     },
