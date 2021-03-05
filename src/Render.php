@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Render;
+namespace Differ\Render;
 
 use Exception;
-use App\Formatters;
+use Differ\Formatters;
 
 function render($data, $format = 'stylish')
 {

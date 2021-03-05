@@ -1,6 +1,6 @@
 <?php
 
-namespace App\BuildAst;
+namespace Differ\BuildAst;
 
 use function Funct\Collection\union;
 

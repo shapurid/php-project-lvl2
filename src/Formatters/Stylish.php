@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Formatters\Stylish;
+namespace Differ\Formatters\Stylish;
 
 function makeIndent($n = 1)
 {

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Cli;
+namespace Differ\Cli;
 
 use Docopt;
-use App\Differ;
+
+use function Differ\Differ\genDiff;
 
 const DOC = <<<DOCS
 
@@ -31,5 +32,5 @@ function run()
       '--format' => $format
     ] = $args;
 
-    print_r(Differ\genDiff($pathOfFile1, $pathOfFile2, $format));
+    echo genDiff($pathOfFile1, $pathOfFile2, $format);
 }

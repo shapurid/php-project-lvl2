@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Differ;
+namespace Differ\Differ;
 
 use Exception;
 
-use function App\Parsers\parse;
-use function App\Render\render;
-use function App\BuildAst\buildAst;
+use function Differ\Parsers\parse;
+use function Differ\Render\render;
+use function Differ\BuildAst\buildAst;
 
 function getFileContent(string $pathToFile): \stdClass
 {
