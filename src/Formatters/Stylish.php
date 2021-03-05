@@ -70,7 +70,7 @@ function renderAst($ast, $depth = 0)
                 $indent = makeIndent($depth);
                 $stringifiedNewValue = stringifyValue($newValue, $depth);
                 $stringifiedOldValue = stringifyValue($oldValue, $depth);
-                return "$indent+ $key: $stringifiedNewValue\n$indent- $key: $stringifiedOldValue ";
+                return "$indent- $key: $stringifiedOldValue\n$indent+ $key: $stringifiedNewValue ";
             },
         'nested' =>
             function ($depth, $node, $fn) {
