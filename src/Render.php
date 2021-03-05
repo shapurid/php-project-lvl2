@@ -3,7 +3,7 @@
 namespace App\Render;
 
 use Exception;
-use App\Formatters\Pretty;
+use App\Formatters;
 
 function render($data, $format = 'stylish')
 {
@@ -11,9 +11,9 @@ function render($data, $format = 'stylish')
         'json' =>
             fn($data) => json_encode($data, JSON_PRETTY_PRINT),
         'stylish' =>
-            fn($data) => Pretty\format($data),
+            fn($data) => Formatters\Stylish\format($data),
         'plain' =>
-            fn($data) => Pretty\format($data)
+            fn($data) => Formatters\Plain\format($data)
     ];
     if (!array_key_exists($format, $formatters)) {
         throw new Exception('This format does not support!');

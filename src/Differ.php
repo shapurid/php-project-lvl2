@@ -10,12 +10,13 @@ use function App\BuildAst\buildAst;
 
 function getFileContent(string $pathToFile): \stdClass
 {
-    $fileContent = file_get_contents($pathToFile, true);
+    $absolutePath = realpath($pathToFile);
+    $fileContent = file_get_contents($absolutePath, true);
     $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
     return parse($fileContent, $format);
 }
 
-function genDiff(string $pathToFile1, string $pathToFile2, $format)
+function genDiff(string $pathToFile1, string $pathToFile2, $format = 'stylish')
 {
     if (!file_exists($pathToFile1)) {
         throw new Exception("File '{$pathToFile1}' does not exists!");

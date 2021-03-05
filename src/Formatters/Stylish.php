@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Formatters\Pretty;
+namespace App\Formatters\Stylish;
 
 function makeIndent($n = 1)
 {
@@ -14,12 +14,10 @@ function stringifyValue($value, $depth)
     switch ($typeOfValue) {
         case 'boolean':
             return $value ? 'true' : 'false';
-            break;
         case 'NULL':
             return 'null';
         case 'array':
             return 'Array';
-            break;
         case 'object':
             $objectVars = get_object_vars($value);
             $keys = array_keys($objectVars);
@@ -33,38 +31,10 @@ function stringifyValue($value, $depth)
             $endIndent = makeIndent($depth + 1);
             $formattedData = implode("\n$beginIndent", $data);
             return "{\n{$beginIndent}{$formattedData}\n{$endIndent}}";
-            break;
         default:
             return "\"$value\",";
-            break;
     }
 }
-
-// function buildIndent($depth, $quantityOfGaps)
-// {
-//     $spaceMultiplier = $depth * $quantityOfGaps;
-//     return str_repeat(" ", $spaceMultiplier);
-// }
-
-// function stringifyValue($value, $depth)
-// {
-//     if (is_bool($value)) {
-//         return $value ? 'true' : 'false';
-//     }
-//     if (is_null($value)) {
-//         return 'null';
-//     }
-//     if (!is_object($value)) {
-//         return (string) $value;
-//     }
-//     $indent = buildIndent($depth, 4);
-//     $stringOfArray = array_map(function ($key, $item) use ($depth, $indent) {
-//         $depth += 1;
-//         $typeOfValueOfNode = (is_object($item)) ? stringifyValue($item, $depth) : $item;
-//         return $indent . "    " . "{$key}: " . $typeOfValueOfNode . PHP_EOL;
-//     }, array_keys(get_object_vars($value)), get_object_vars($value));
-//     return '{' . PHP_EOL . implode("", $stringOfArray) . $indent . '}';
-// }
 
 function format($ast, $depth = 0)
 {

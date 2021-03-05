@@ -1,0 +1,98 @@
+{
+    "0": {
+        "type": "nested",
+        "key": "common",
+        "children": {
+            "0": {
+                "type": "unchanged",
+                "key": "setting1",
+                "value": "Value 1"
+            },
+            "1": {
+                "type": "removed",
+                "key": "setting2",
+                "value": "200"
+            },
+            "2": {
+                "type": "changed",
+                "key": "setting3",
+                "newValue": true,
+                "oldValue": {
+                    "key": "value"
+                }
+            },
+            "3": {
+                "type": "nested",
+                "key": "setting6",
+                "children": {
+                    "0": {
+                        "type": "unchanged",
+                        "key": "key",
+                        "value": "value"
+                    },
+                    "2": {
+                        "type": "added",
+                        "key": "ops",
+                        "value": "vops"
+                    }
+                }
+            },
+            "4": {
+                "type": "added",
+                "key": "follow",
+                "value": false
+            },
+            "7": {
+                "type": "added",
+                "key": "setting4",
+                "value": "blah blah"
+            },
+            "8": {
+                "type": "added",
+                "key": "setting5",
+                "value": {
+                    "key5": "value5"
+                }
+            }
+        }
+    },
+    "1": {
+        "type": "nested",
+        "key": "group1",
+        "children": [
+            {
+                "type": "changed",
+                "key": "baz",
+                "newValue": "bas",
+                "oldValue": "bars"
+            },
+            {
+                "type": "unchanged",
+                "key": "foo",
+                "value": "bar"
+            },
+            {
+                "type": "changed",
+                "key": "nest",
+                "newValue": {
+                    "key": "value"
+                },
+                "oldValue": "str"
+            }
+        ]
+    },
+    "2": {
+        "type": "removed",
+        "key": "group2",
+        "value": {
+            "abc": "12345"
+        }
+    },
+    "5": {
+        "type": "added",
+        "key": "group3",
+        "value": {
+            "fee": "100500"
+        }
+    }
+}
