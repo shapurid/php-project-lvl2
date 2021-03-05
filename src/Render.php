@@ -18,5 +18,5 @@ function render($data, $format = 'stylish'): string
     if (!array_key_exists($format, $formatters)) {
         throw new Exception('This format does not support!');
     }
-    return $formatters[$format]($data);
+    return (string) $formatters[$format]($data);
 }
