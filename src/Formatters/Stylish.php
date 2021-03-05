@@ -8,14 +8,12 @@ function makeIndent($n = 1): string
 }
 
 /**
- * @param \stdClass|string|int|bool $value
+ * @param \stdClass|array|string|int|null|bool $value
  * @param int $depth
  */
 
 function stringifyValue($value, $depth): string
 {
-    $typeOfValue = gettype($value);
-
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
     }
