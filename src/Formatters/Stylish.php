@@ -7,10 +7,6 @@ function makeIndent($n = 1): string
     return str_repeat(' ', $n * 2);
 }
 
-/**
- * @param (bool|string|?int|object|array) $value
- */
-
 function stringifyValue($value, $depth): string
 {
     $typeOfValue = gettype($value);
@@ -26,8 +22,9 @@ function stringifyValue($value, $depth): string
             $objectVars = get_object_vars($value);
             $keys = array_keys($objectVars);
 
-            $data = array_map(function (string $key) use ($value, $depth): string {
-                $formattedValue = stringifyValue($value->$key, $depth + 2);
+            $data = array_map(function ($key) use ($value, $depth): string {
+                $a = $value->$key;
+                $formattedValue = stringifyValue($a, $depth + 2);
                 return "$key: $formattedValue";
             }, $keys);
             $beginIndent = makeIndent($depth + 3);
