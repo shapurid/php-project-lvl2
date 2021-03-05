@@ -7,7 +7,11 @@ function makeIndent($n = 1): string
     return str_repeat(' ', $n * 2);
 }
 
-function stringifyValue(\stdClass | string | int | bool $value, $depth): string
+/**
+ * @param \stdClass|string|int|bool $value
+ */
+
+function stringifyValue($value, $depth): string
 {
     $typeOfValue = gettype($value);
 
