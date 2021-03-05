@@ -33,6 +33,5 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'sty
     $content2 = getFileContent($absolutePathToFile2);
 
     $ast = buildAst($content1, $content2);
-    print_r($ast);
     return render($ast, $format);
 }

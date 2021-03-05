@@ -2,7 +2,11 @@
 
 namespace Differ\Formatters\Plain;
 
-function stringifyValue(string $value): string
+/**
+ * @param \stdClass|string|int|null|bool|array<int|string|bool|array|\stdClass> $value
+ */
+
+function stringifyValue($value): string
 {
     $typeOfValue = gettype($value);
 
@@ -26,11 +30,9 @@ function stringifyValue(string $value): string
 
 /**
  * @param array<int|string|bool|array|\stdClass> $ast
- * @param string $path
- * @return string
  */
 
-function format($ast, $path = '')
+function format($ast, string $path = ''): string
 {
     $nodeHandlers = [
         'added' =>
