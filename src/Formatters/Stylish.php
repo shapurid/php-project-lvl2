@@ -36,7 +36,7 @@ function stringifyValue($value, $depth)
     }
 }
 
-function format($ast, $depth = 0)
+function renderAst($ast, $depth = 0)
 {
     $nodeHandlers = [
         'added' =>
@@ -78,14 +78,21 @@ function format($ast, $depth = 0)
                 $beginIndent = makeIndent($depth);
                 $endIndent = makeIndent($depth + 1);
                 $formattedChildren = $fn($children, $depth + 2);
-                return "$beginIndent  \"$key\":  {\n{$formattedChildren}\n{$endIndent}}";
+                return "$beginIndent  \"$key\": {\n{$formattedChildren}\n{$endIndent}}";
             }
     ];
 
     $elementsOfDiff = array_map(function ($node) use ($nodeHandlers, $depth) {
         ['type' => $type] = $node;
         $handleNode = $nodeHandlers[$type];
-        return $handleNode($depth, $node, fn($children, $d) => format($children, $d));
+        return $handleNode($depth, $node, fn($children, $d) => renderAst($children, $d));
     }, $ast);
     return implode("\n", $elementsOfDiff);
+}
+
+function format($ast, $depth = 0)
+{
+    $a = renderAst($ast, $depth + 1);
+    $beginIndent = makeIndent($depth);
+    return "{\n{$beginIndent}{$a}\n}";
 }
