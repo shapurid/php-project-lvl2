@@ -14,10 +14,7 @@ function stringifyValue($value): string
     if (is_null($value)) {
         return 'null';
     }
-    if (is_array($value)) {
-        return '[complex value]';
-    }
-    if (is_object($value)) {
+    if (is_array($value) || is_object($value)) {
         return '[complex value]';
     }
     if (is_int($value)) {
