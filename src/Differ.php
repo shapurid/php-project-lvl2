@@ -8,11 +8,22 @@ use function Differ\Parsers\parse;
 use function Differ\Render\render;
 use function Differ\BuildAst\buildAst;
 
-function getFileContent(string $pathToFile): \stdClass
+function getFileContent(string $pathToFile): string
 {
-    $fileContent = file_get_contents($pathToFile, true);
-    $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
-    return parse($fileContent, $format);
+    $absolutePathToFile = (string) realpath($pathToFile);
+    if (!file_exists($absolutePathToFile)) {
+        throw new Exception("File '{$pathToFile}' does not exists!");
+    }
+    $contentOfFile = file_get_contents($absolutePathToFile, true);
+    if (!$contentOfFile) {
+        throw new Exception("Can't get content of file '{$pathToFile}'!");
+    }
+    return $contentOfFile;
+}
+
+function getFileFormat(string $pathToFile): string
+{
+    return pathinfo($pathToFile, PATHINFO_EXTENSION);
 }
 
 /**
@@ -21,17 +32,15 @@ function getFileContent(string $pathToFile): \stdClass
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $format = 'stylish')
 {
-    $absolutePathToFile1 = (string) realpath($pathToFile1);
-    $absolutePathToFile2 = (string) realpath($pathToFile2);
-    if (!file_exists($absolutePathToFile1)) {
-        throw new Exception("File '{$pathToFile1}' does not exists!");
-    }
-    if (!file_exists($absolutePathToFile2)) {
-        throw new Exception("File '{$pathToFile2}' does not exists!");
-    }
-    $content1 = getFileContent($absolutePathToFile1);
-    $content2 = getFileContent($absolutePathToFile2);
+    $contentOfFile1 = getFileContent($pathToFile1);
+    $contentOfFile2 = getFileContent($pathToFile2);
 
-    $ast = buildAst($content1, $content2);
+    $formatOfFile1 = getFileFormat($pathToFile1);
+    $formatOfFile2 = getFileFormat($pathToFile2);
+
+    $parsedContentOfFile1 = parse($contentOfFile1, $formatOfFile1);
+    $parsedContentOfFile2 = parse($contentOfFile2, $formatOfFile2);
+
+    $ast = buildAst($parsedContentOfFile1, $parsedContentOfFile2);
     return render($ast, $format);
 }

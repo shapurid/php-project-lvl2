@@ -19,7 +19,6 @@
     },
     "autoload": {
         "files": [
-            "src/Cli.php",
             "src/Differ.php",
             "src/BuildAst.php",
             "src/Parsers.php",
