@@ -15,7 +15,7 @@ function getFileContent(string $pathToFile): string
         throw new Exception("File '{$pathToFile}' does not exists!");
     }
     $contentOfFile = file_get_contents($absolutePathToFile, true);
-    if (!$contentOfFile) {
+    if (is_bool($contentOfFile)) {
         throw new Exception("Can't get content of file '{$pathToFile}'!");
     }
     return $contentOfFile;
