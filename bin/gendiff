@@ -28,17 +28,10 @@ Options:
 
 DOCS;
 
-function run(): void
-{
-    $args = Docopt::handle(DOC, ['version' => '0.0.1']);
+[
+  '<firstFile>' => $pathOfFile1,
+  '<secondFile>' => $pathOfFile2,
+  '--format' => $format
+] = Docopt::handle(DOC, ['version' => '0.0.1']);
 
-    [
-      '<firstFile>' => $pathOfFile1,
-      '<secondFile>' => $pathOfFile2,
-      '--format' => $format
-    ] = $args;
-
-    echo genDiff($pathOfFile1, $pathOfFile2, $format);
-}
-
-run();
+echo genDiff($pathOfFile1, $pathOfFile2, $format);
