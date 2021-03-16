@@ -19,40 +19,39 @@ function buildAst(object $data1, object $data2)
     );
     $sortedKeys = sortBy($unionOfKeys, fn($value) => $value);
     return array_map(function ($key) use ($data1, $data2) {
-        if (
-            (property_exists($data1, $key) && property_exists($data2, $key))
-            && (is_object($data1->$key) && is_object($data2->$key))
-        ) {
-            return [
-                'type' => 'nested',
-                'key' => $key,
-                'children' => buildAst($data1->$key, $data2->$key)
-            ];
-        } elseif (!property_exists($data1, $key)) {
+        if (!property_exists($data1, $key)) {
             return [
                 'type' => 'added',
                 'key' => $key,
                 'value' => $data2->$key
             ];
-        } elseif (!property_exists($data2, $key)) {
+        }
+        if (!property_exists($data2, $key)) {
             return [
                 'type' => 'removed',
                 'key' => $key,
                 'value' => $data1->$key
             ];
-        } elseif ($data1->$key !== $data2->$key) {
+        }
+        if (is_object($data1->$key) && is_object($data2->$key)) {
+            return [
+                'type' => 'nested',
+                'key' => $key,
+                'children' => buildAst($data1->$key, $data2->$key)
+            ];
+        }
+        if ($data1->$key !== $data2->$key) {
             return [
                 'type' => 'changed',
                 'key' => $key,
                 'newValue' => $data2->$key,
                 'oldValue' => $data1->$key,
             ];
-        } else {
-            return [
-                'type' => 'unchanged',
-                'key' => $key,
-                'value' => $data1->$key
-            ];
-        };
+        }
+        return [
+            'type' => 'unchanged',
+            'key' => $key,
+            'value' => $data1->$key
+        ];
     }, $sortedKeys);
 }

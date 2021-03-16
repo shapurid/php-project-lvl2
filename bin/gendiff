@@ -34,4 +34,8 @@ DOCS;
   '--format' => $format
 ] = Docopt::handle(DOC, ['version' => '0.0.1']);
 
-echo genDiff($pathOfFile1, $pathOfFile2, $format);
+try {
+  echo genDiff($pathOfFile1, $pathOfFile2, $format);
+} catch(\Exception $error) {
+  echo $error->getMessage();
+}

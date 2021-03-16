@@ -10,7 +10,7 @@ use Differ\Formatters;
  * @return string|false
  */
 
-function render($ast, string $format = 'stylish')
+function render($ast, string $format)
 {
     $formatters = [
         'json' =>
@@ -21,7 +21,7 @@ function render($ast, string $format = 'stylish')
             fn($ast) => Formatters\Plain\format($ast)
     ];
     if (!array_key_exists($format, $formatters)) {
-        throw new Exception('This format does not support!');
+        throw new Exception("Format {$format} does not support!");
     }
     return $formatters[$format]($ast);
 }

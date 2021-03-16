@@ -2,6 +2,8 @@
 
 namespace Differ\Formatters\Plain;
 
+use PHPUnit\TextUI\XmlConfiguration\CodeCoverage\Report\Text;
+
 /**
  * @param \stdClass|string|int|null|bool|array<int|string|bool|array|\stdClass> $value
  */
@@ -20,7 +22,7 @@ function stringifyValue($value): string
     if (is_int($value)) {
         return (string) $value;
     }
-    return "'$value'";
+    return "'{$value}'";
 }
 
 /**
@@ -34,10 +36,10 @@ function format($ast, string $path = ''): string
             function ($pathOfProperty, $node): string {
                 ['value' => $value] = $node;
                 $stringifiedValue = stringifyValue($value);
-                return "Property '$pathOfProperty' was added with value: $stringifiedValue";
+                return "Property '{$pathOfProperty}' was added with value: {$stringifiedValue}";
             },
         'removed' =>
-            fn($pathOfProperty) => "Property '$pathOfProperty' was removed",
+            fn($pathOfProperty) => "Property '{$pathOfProperty}' was removed",
         'unchanged' =>
             fn() => '',
         'changed' =>
@@ -45,7 +47,9 @@ function format($ast, string $path = ''): string
                 ['newValue' => $newValue, 'oldValue' => $oldValue] = $node;
                 $stringifiedNewValue = stringifyValue($newValue);
                 $stringifiedOldValue = stringifyValue($oldValue);
-                return "Property '$pathOfProperty' was updated. From $stringifiedOldValue to $stringifiedNewValue";
+                return <<<TEXT
+                Property '{$pathOfProperty}' was updated. From {$stringifiedOldValue} to {$stringifiedNewValue}
+                TEXT;
             },
         'nested' =>
             function ($pathOfProperty, $node, $fn) {
@@ -56,9 +60,9 @@ function format($ast, string $path = ''): string
 
     $elementsOfDiff = array_map(function ($node) use ($nodeHandlers, $path) {
         ['type' => $type, 'key' => $key] = $node;
-        $pathOfProperty = strlen($path) > 0 ? "$path.$key" : $key;
+        $pathOfProperty = strlen($path) > 0 ? "{$path}.{$key}" : $key;
         $handleNode = $nodeHandlers[$type];
-        return $handleNode($pathOfProperty, $node, fn($children, $d) => format($children, $d));
+        return $handleNode($pathOfProperty, $node, fn($children, $propertyPath) => format($children, $propertyPath));
     }, $ast);
     $elementWithoutEmptyStrings = array_filter($elementsOfDiff, fn($el) => strlen($el) > 0);
     return implode("\n", $elementWithoutEmptyStrings);
