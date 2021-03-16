@@ -2,8 +2,7 @@
 
 namespace Differ\BuildAst;
 
-use function Funct\Collection\union;
-use function Funct\Collection\sortBy;
+use function Functional\sort;
 
 /**
  * @return array<int|string|bool|array|\stdClass>
@@ -13,11 +12,12 @@ function buildAst(object $data1, object $data2)
 {
     $varsOfContent1 = get_object_vars($data1);
     $varsOfContent2 = get_object_vars($data2);
-    $unionOfKeys = union(
+    $mergedKeys = array_merge(
         array_keys($varsOfContent1),
         array_keys($varsOfContent2)
     );
-    $sortedKeys = sortBy($unionOfKeys, fn($value) => $value);
+    $unionOfKeys = array_unique($mergedKeys);
+    $sortedKeys = sort($unionOfKeys, fn($left, $right) => strcmp($left, $right), true);
     return array_map(function ($key) use ($data1, $data2) {
         if (!property_exists($data1, $key)) {
             return [
