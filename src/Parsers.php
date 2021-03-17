@@ -18,5 +18,9 @@ function parse($data, string $type): \stdClass
         'yaml' =>
             fn($data) => Yaml::parse($data, Yaml::PARSE_OBJECT_FOR_MAP),
     ];
+    if (!array_key_exists($type, $parsers)) {
+        $availableTypes = implode(', ', array_keys($parsers));
+        throw new \Exception("File extension {$type} does not support! Supported extensions are: {$availableTypes}");
+    }
     return $parsers[$type]($data);
 }
