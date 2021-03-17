@@ -38,4 +38,5 @@ try {
   echo genDiff($pathOfFile1, $pathOfFile2, $format);
 } catch(\Exception $error) {
   echo $error->getMessage();
+  exit(1);
 }
